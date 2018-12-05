@@ -19,6 +19,7 @@ defmodule Lambda.MixProject do
       source_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime",
       homepage_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime",
       docs: [
+        source_url_pattern: "https://github.com/aws-samples/aws-lambda-elixir-runtime/blob/master/elixir_runtime/%{path}#L%{line}",
         main: "readme",
         extras: [
           "README.md",
@@ -41,7 +42,7 @@ defmodule Lambda.MixProject do
     [
       {:poison, "~> 3.1"},
       {:mox, "~> 0.4", only: :test},
-      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.19", only: :dev, runtime: false}
     ]
   end
 
