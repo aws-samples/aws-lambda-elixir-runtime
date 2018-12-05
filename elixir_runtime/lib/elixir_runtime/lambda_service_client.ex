@@ -10,6 +10,8 @@ defmodule ElixirRuntime.LambdaServiceClient do
   @behaviour ElixirRuntime.Loop.Client
   @behaviour ElixirRuntime.Monitor.Client
 
+  alias ElixirRuntime.LambdaServiceClient
+
   def service_endpoint do
     System.get_env("AWS_LAMBDA_RUNTIME_API")
   end
@@ -67,7 +69,7 @@ defmodule ElixirRuntime.LambdaServiceClient do
   end
 end
 
-defmodule LambdaServiceClient.Context do
+defmodule ElixirRuntime.LambdaServiceClient.Context do
   @request_id "lambda-runtime-aws-request-id"
   @trace_id "lambda-runtime-trace-id"
   @client_context "x-amz-client-context"
