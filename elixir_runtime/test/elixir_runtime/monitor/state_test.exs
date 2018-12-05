@@ -1,14 +1,15 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Monitor.State.Test do
+defmodule ElixirRuntime.Monitor.State.Test do
   use ExUnit.Case, async: true
-  doctest Monitor.State
+  doctest ElixirRuntime.Monitor.State
 
-  alias Monitor.State, as: State
+  alias ElixirRuntime.Monitor
+  alias Monitor.State
 
   defmodule FakeClient do
-    @behaviour Monitor.Client
+    @behaviour ElixirRuntime.Monitor.Client
 
     @impl true
     def init_error(err_msg) do

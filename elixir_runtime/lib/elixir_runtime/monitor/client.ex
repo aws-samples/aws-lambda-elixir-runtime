@@ -1,7 +1,7 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Monitor.Client do
+defmodule ElixirRuntime.Monitor.Client do
   @moduledoc """
   This module defines the client behavior required by the runtime monitor.
   """

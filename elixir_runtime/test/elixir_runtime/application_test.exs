@@ -1,14 +1,14 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Application.Test do
+defmodule ElixirRuntime.Application.Test do
   use ExUnit.Case
 
   # This test suite is for the end-to-end behavior of the elixir runtime
   # application. The tests leverage an in-memory client which echos requests
   # back to the test process for validation.
 
-  def echo_msg(body = %{"msg" => message}, _context), do: message
+  def echo_msg(_request = %{"msg" => message}, _context), do: message
 
   defmodule MyCustomBug do
     defexception [:message]
@@ -29,7 +29,7 @@ defmodule Application.Test do
     invocation = Support.FakeInvoke.with_message("hello world")
     expected_id = Support.FakeInvoke.id(invocation)
 
-    System.put_env("_HANDLER", "Elixir.Application.Test:echo_msg")
+    System.put_env("_HANDLER", "Elixir.ElixirRuntime.Application.Test:echo_msg")
     start_with_invocations([invocation])
 
     assert_receive {:next, ^invocation}
@@ -40,11 +40,19 @@ defmodule Application.Test do
     invoke = Support.FakeInvoke.with_message("some message")
     expected_id = Support.FakeInvoke.id(invoke)
 
-    System.put_env("_HANDLER", "Elixir.Application.Test:logical_bug_handler")
+    System.put_env(
+      "_HANDLER",
+      "Elixir.ElixirRuntime.Application.Test:logical_bug_handler"
+    )
+
     start_with_invocations([invoke])
 
     assert_receive {:invocation_error, msg, ^expected_id}
-    assert String.contains?(msg, "FunctionElixir.Application.Test.MyCustomBug")
+
+    assert String.contains?(
+             msg,
+             "FunctionElixir.ElixirRuntime.Application.Test.MyCustomBug"
+           )
   end
 
   test "a missing handler string" do
@@ -80,15 +88,16 @@ defmodule Application.Test do
   # This is the same process as starting the application but it's done
   # piece-by-piece here so the InMemoryClient can be passed into the Runtime
   # and monitor.
-  defp start_with_invocations(invocations \\ []) do
+  defp start_with_invocations(invocations) do
     start_supervised!(
       {Support.InMemoryClient, %{pending: invocations, listener: self()}}
     )
 
-    start_supervised!(
-      {Monitor.Server, [client: Support.InMemoryClient, name: Monitor]}
-    )
+    start_supervised!({
+      ElixirRuntime.Monitor.Server,
+      [client: Support.InMemoryClient, name: ElixirRuntime.Monitor]
+    })
 
-    start_supervised!({Runtime, [client: Support.InMemoryClient]})
+    start_supervised!({ElixirRuntime.Loop, [client: Support.InMemoryClient]})
   end
 end

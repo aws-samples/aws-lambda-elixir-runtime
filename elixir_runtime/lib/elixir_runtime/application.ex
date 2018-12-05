@@ -1,7 +1,7 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Runtime.Application do
+defmodule ElixirRuntime.Application do
   @moduledoc """
   The main OTP Application for the Elixir Runtime.
 
@@ -15,8 +15,11 @@ defmodule Runtime.Application do
 
   def start(_type, _args) do
     children = [
-      {Monitor.Server, [name: Monitor, client: LambdaServiceClient]},
-      {Runtime, [client: LambdaServiceClient]}
+      {
+        ElixirRuntime.Monitor.Server,
+        [name: ElixirRuntime.Monitor, client: ElixirRuntime.LambdaServiceClient]
+      },
+      {ElixirRuntime.Loop, [client: ElixirRuntime.LambdaServiceClient]}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one)

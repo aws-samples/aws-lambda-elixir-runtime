@@ -1,11 +1,11 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Monitor.Error.Test do
+defmodule ElixirRuntime.Monitor.Error.Test do
   use ExUnit.Case, async: true
-  doctest Monitor.Error
+  doctest ElixirRuntime.Monitor.Error
 
-  alias Monitor.Error, as: Error
+  alias ElixirRuntime.Monitor.Error
 
   setup do
     {:current_stacktrace, stacktrace} =

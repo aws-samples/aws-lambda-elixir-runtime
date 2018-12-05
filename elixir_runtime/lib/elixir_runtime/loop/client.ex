@@ -1,7 +1,7 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Runtime.Client do
+defmodule ElixirRuntime.Loop.Client do
   @moduledoc "The Lambda Runtime Service Client behavior this runtime requires"
 
   @type id :: String.t()

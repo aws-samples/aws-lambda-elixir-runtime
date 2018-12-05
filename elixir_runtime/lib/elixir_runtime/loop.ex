@@ -1,7 +1,7 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Runtime do
+defmodule ElixirRuntime.Loop do
   @moduledoc """
   The main Runtime loop process.
 
@@ -13,14 +13,15 @@ defmodule Runtime do
   use Task, restart: :permanent
   require Logger
   alias __MODULE__
-  alias Runtime.Handler, as: Handler
+  alias Loop.Handler
+  alias ElixirRuntime.Monitor
 
   @type client :: module()
 
   @doc "spawn a task to run the main loop asynchronously"
   def start_link(args \\ []) do
     client = Keyword.get(args, :client)
-    Task.start_link(Runtime, :main, [client])
+    Task.start_link(Loop, :main, [client])
   end
 
   @doc "the main entrypoint for the runtime"

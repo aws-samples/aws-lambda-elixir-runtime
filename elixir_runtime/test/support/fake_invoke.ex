@@ -16,7 +16,7 @@ defmodule Support.FakeInvoke do
   def body({_id, body, _context}), do: body
 
   defp generated_id do
-    id = Integer.to_string(:random.uniform(100_000_000), 32)
+    id = Integer.to_string(:rand.uniform(100_000_000), 32)
     "TestId-#{id}"
   end
 end

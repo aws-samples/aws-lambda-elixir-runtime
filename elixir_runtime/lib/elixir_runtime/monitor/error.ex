@@ -1,7 +1,7 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Monitor.Error do
+defmodule ElixirRuntime.Monitor.Error do
   @moduledoc """
   This module defines the Error struct which is used to communicate runtime
   errors to the Lambda Runtime Service.

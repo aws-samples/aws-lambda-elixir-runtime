@@ -1,14 +1,14 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule LambdaServiceClient do
+defmodule ElixirRuntime.LambdaServiceClient do
   @moduledoc """
   This module represents an HTTP client for the Lambda Runtime service.
   """
 
   require Logger
-  @behaviour Runtime.Client
-  @behaviour Monitor.Client
+  @behaviour ElixirRuntime.Loop.Client
+  @behaviour ElixirRuntime.Monitor.Client
 
   def service_endpoint do
     System.get_env("AWS_LAMBDA_RUNTIME_API")
@@ -16,8 +16,8 @@ defmodule LambdaServiceClient do
 
   @impl true
   @spec invocation_error(
-          Monitor.Client.error(),
-          Monitor.Client.id()
+          ElixirRuntime.Monitor.Client.error(),
+          ElixirRuntime.Monitor.Client.id()
         ) :: no_return
   def invocation_error(err_msg, id) do
     url =

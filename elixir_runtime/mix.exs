@@ -19,7 +19,8 @@ defmodule Lambda.MixProject do
       source_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime",
       homepage_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime",
       docs: [
-        source_url_pattern: "https://github.com/aws-samples/aws-lambda-elixir-runtime/blob/master/elixir_runtime/%{path}#L%{line}",
+        source_url_pattern:
+          "https://github.com/aws-samples/aws-lambda-elixir-runtime/blob/master/elixir_runtime/%{path}#L%{line}",
         main: "readme",
         extras: [
           "README.md",
@@ -32,7 +33,7 @@ defmodule Lambda.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {Runtime.Application, []},
+      mod: {ElixirRuntime.Application, []},
       extra_applications: [:logger, :inets]
     ]
   end

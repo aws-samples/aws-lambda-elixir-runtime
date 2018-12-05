@@ -1,7 +1,7 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Runtime.Handler do
+defmodule ElixirRuntime.Loop.Handler do
   @moduledoc """
   This module defines the Handler struct which is used to represent the
   module-function atom pair which identifies a client's entrypoint.
@@ -20,8 +20,8 @@ defmodule Runtime.Handler do
   Manually create a handler from two atoms.
   ## Examples
 
-    iex> Runtime.Handler.new(Elixir.Example, :handle)
-    %Runtime.Handler{module: Elixir.Example, function: :handle}
+    iex> ElixirRuntime.Loop.Handler.new(Elixir.Example, :handle)
+    %ElixirRuntime.Loop.Handler{module: Elixir.Example, function: :handle}
   """
   def new(module, function) when is_atom(module) and is_atom(function) do
     %Handler{module: module, function: function}
@@ -32,8 +32,8 @@ defmodule Runtime.Handler do
   ## Examples
 
       iex> System.put_env("_HANDLER", "Elixir.Example:handle")
-      iex> Runtime.Handler.configured()
-      %Runtime.Handler{module: Elixir.Example, function: :handle}
+      iex> ElixirRuntime.Loop.Handler.configured()
+      %ElixirRuntime.Loop.Handler{module: Elixir.Example, function: :handle}
   """
   def configured do
     [module, function] = handler_string() |> String.split(":", trim: true)
@@ -46,8 +46,8 @@ defmodule Runtime.Handler do
 
   Create a handler for String.trim and invoke it to get a result.
       iex> defmodule Example, do: def func(body, _context), do: body
-      iex> handler = Runtime.Handler.new(Example, :func)
-      iex> handler |> Runtime.Handler.invoke(%{msg: "hello"}, %{})
+      iex> handler = ElixirRuntime.Loop.Handler.new(Example, :func)
+      iex> handler |> ElixirRuntime.Loop.Handler.invoke(%{msg: "hello"}, %{})
       %{msg: "hello"}
   """
   def invoke(%Handler{module: module, function: function}, body, context)

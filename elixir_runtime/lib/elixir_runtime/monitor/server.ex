@@ -1,11 +1,11 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Monitor.Server do
+defmodule ElixirRuntime.Monitor.Server do
   use GenServer
 
   alias __MODULE__
-  alias Monitor.State, as: State
+  alias ElixirRuntime.Monitor.State, as: State
 
   def start_link(args) do
     client = Keyword.get(args, :client)

@@ -1,7 +1,7 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Runtime.Monitor do
+defmodule ElixirRuntime.Loop.Monitor do
   @moduledoc """
   The Runtime requires a stateful monitor which will observe any
   failures and call the proper backend APIs.

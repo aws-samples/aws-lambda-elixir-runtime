@@ -1,7 +1,9 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Monitor.State do
+defmodule ElixirRuntime.Monitor.State do
+  alias ElixirRuntime.Monitor
+
   @type monitor_state ::
           {:not_started, Monitor.Client.t()}
           | {:in_progress, Monitor.Client.id(), Monitor.Client.t()}
