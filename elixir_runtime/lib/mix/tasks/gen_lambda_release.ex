@@ -48,7 +48,7 @@ defmodule Mix.Tasks.GenLambdaRelease do
     release :#{app} do
       set version: current_version(:#{app})
       set applications: [
-        :runtime_tools, :elixir_runtime
+        :runtime_tools, :aws_lambda_elixir_runtime
       ]
     end
     """
