@@ -22,9 +22,7 @@ defmodule Lambda.MixProject do
         main: "readme",
         extras: [
           "README.md",
-          "CODE_OF_CONDUCT.md",
-          "CONTRIBUTING.md",
-          ".github/PULL_REQUEST_TEMPLATE.md"
+          "LICENSE.md"
         ]
       ]
     ]
