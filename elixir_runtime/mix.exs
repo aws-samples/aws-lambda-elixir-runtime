@@ -7,7 +7,7 @@ defmodule Lambda.MixProject do
   def project do
     [
       app: :aws_lambda_elixir_runtime,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
