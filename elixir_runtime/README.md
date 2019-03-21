@@ -66,7 +66,7 @@ to read:
 ```elixir
 defmodule HelloWorld do
 
-  def my_hello_world_handler(request, context)
+  def hello_world(request, context)
       when is_map(request) and is_map(context) do
     """
     Hello World!
@@ -103,7 +103,7 @@ cli. Using the CLI would look like the following:
 > aws lambda create-function \
     --region $AWS_REGION \
     --function-name HelloWorld \
-    --handler Elixir.HelloWorld:my_hello_world_handler \
+    --handler Elixir.HelloWorld:hello_world \
     --role $ROLE_ARN \
     --runtime provided \
     --zip-file fileb://./lambda.zip
@@ -116,14 +116,19 @@ Invoking from the CLI would look like this:
 > aws lambda invoke \
     --function-name HelloWorld \
     --region $AWS_REGION \
-    --lag-type TAIL \
+    --log-type Tail \
     --payload '{"msg": "a fake request"}' \
     outputfile.txt
 ...
 
 > cat outputfile.txt
+ok
+```
+
+The LogResult returns a Base64 Encoded message. When decoded this would have
+```
 Hello World!
 Request: %{ "msg" => "a fake request" }
 Context: %{ ... }
 ```
-
+within it including other log messages.
