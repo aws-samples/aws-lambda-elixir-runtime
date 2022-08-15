@@ -34,8 +34,7 @@ defmodule HelloWorld.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:aws_lambda_elixir_runtime, path: "../../elixir_runtime"},
-      {:postgrex, "~> 0.16.4"}
+      {:aws_lambda_elixir_runtime, path: "../../elixir_runtime"}
     ]
   end
 end

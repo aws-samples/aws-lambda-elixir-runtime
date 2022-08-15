@@ -12,12 +12,23 @@ defmodule Lambda.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      aliases: [test: "test --no-start"],
-
+      aliases: [
+        test: "test --no-start",
+        build_lambda: ["release", "lambda.bootstrap", "lambda.zip"]
+      ],
       # Docs
+      description: "AWS Lambda Elixir Runtime",
+      package: [
+        organization: "getthru",
+        licenses: ["MIT"],
+        links: %{
+          "GitHub" => "https://github.com/getthru/aws-lambda-elixir-runtime"
+        }
+      ],
       name: "AWS Lambda Elixir Runtime",
       source_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime",
-      homepage_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime/tree/master/elixir_runtime",
+      homepage_url:
+        "https://github.com/aws-samples/aws-lambda-elixir-runtime/tree/master/elixir_runtime",
       docs: [
         source_url_pattern:
           "https://github.com/aws-samples/aws-lambda-elixir-runtime/blob/master/elixir_runtime/%{path}#L%{line}",

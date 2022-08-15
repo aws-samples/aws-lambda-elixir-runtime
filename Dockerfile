@@ -32,3 +32,6 @@ RUN ln -s /opt/elixir/bin/elixirc /usr/local/bin/elixirc
 
 RUN mix local.hex --force && \
     mix local.rebar --force
+
+WORKDIR /app/examples/hello_world
+CMD ["mix", "do", "release", "lambda.bootstrap", "lambda.zip"]

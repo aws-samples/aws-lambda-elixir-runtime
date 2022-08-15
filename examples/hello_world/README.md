@@ -8,10 +8,10 @@ This example is ready to deploy. It needs to be built and bundled:
 
 ```
 > mix deps.get
-> mix do release, bootstrap, zip
+> mix do release, lambda.bootstrap, lambda.zip
 ```
 
-This creates a file called ```lambda.zip``` in the current directory.
+This creates a file called ```<app_name>_lambda.zip``` in the `deploy` directory.
 Use the AWS CLI to create the function like so:
 
 
@@ -19,7 +19,7 @@ Use the AWS CLI to create the function like so:
 > aws lambda create-function \
     --region $AWS_REGION \
     --function-name HelloWorld \
-    --handler Elixir.HelloWorld:hello_world \
+    --handler Elixir.HelloWorld:handler \
     --role $ROLE_ARN \
     --runtime provided \
     --zip-file fileb://./lambda.zip

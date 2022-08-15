@@ -44,13 +44,13 @@ defmodule Mix.Tasks.Lambda.Build.Docker do
     Enum.each(commands, fn command ->
       Mix.shell().cmd(command)
       |> case do
-           0 ->
-             :ok
+        0 ->
+          :ok
 
-           status ->
-             Mix.shell().error("Build failed")
-             Mix.raise("Exit status: #{inspect(status)}")
-         end
+        status ->
+          Mix.shell().error("Build failed")
+          Mix.raise("Exit status: #{inspect(status)}")
+      end
     end)
 
     Mix.shell().info("Lambda release built")
