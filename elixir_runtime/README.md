@@ -130,3 +130,17 @@ Request: %{ "msg" => "a fake request" }
 Context: %{ ... }
 ```
 within it including other log messages.
+
+
+## To prepare a zip package to upload to lambda:
+The zip package must be compiled using amazon linux, to do so use the following steps:
+
+Clone this repo and build the builder image:
+```
+docker build . -t lambda_builder
+```
+
+Run this command from within your applications repo to prepare your zip file for upload to lambda, the zip file will be created in a directory called `deploy`
+```
+docker run -i -t --rm -v $(pwd):/app lambda_builder
+```

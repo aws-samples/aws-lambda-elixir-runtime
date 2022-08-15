@@ -13,8 +13,7 @@ defmodule Lambda.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: [
-        test: "test --no-start",
-        build_lambda: ["release", "lambda.bootstrap", "lambda.zip"]
+        test: "test --no-start"
       ],
       # Docs
       description: "AWS Lambda Elixir Runtime",

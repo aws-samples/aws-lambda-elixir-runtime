@@ -16,6 +16,7 @@ defmodule Mix.Tasks.Lambda.Zip do
     chmod +x releases/#{version}/elixir && \
     chmod +x erts-*/bin/* && \
     zip -r #{app}_lambda.zip * && \
+    mkdir ../../../../deploy && \
     mv #{app}_lambda.zip ../../../../deploy"
 
     System.cmd("sh", ["-c", cmd])

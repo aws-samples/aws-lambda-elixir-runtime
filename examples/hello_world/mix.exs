@@ -19,7 +19,7 @@ defmodule HelloWorld.MixProject do
             runtime_tools: :permanent,
             hello_world: :permanent
           ]
-        ],
+        ]
       ]
     ]
   end
