@@ -1,14 +1,22 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Mix.Tasks.Zip do
+defmodule Mix.Tasks.Lambda.Zip do
   use Mix.Task
 
   @shortdoc "zip the contents of the current release"
   def run(_) do
-    path = release_path(app_name())
+    app = app_name()
+    version = app_version()
+    env = Mix.env()
+    release_dir = "_build/#{env}/rel/#{app}"
 
-    cmd = "cd #{path} && zip -r lambda.zip * && cp lambda.zip #{System.cwd()}"
+    cmd = "cd #{release_dir} && \
+    chmod +x bin/#{app} && \
+    chmod +x releases/#{version}/elixir && \
+    chmod +x erts-*/bin/* && \
+    zip -r #{app}_lambda.zip * && \
+    mv #{app}_lambda.zip ../../../../deploy"
 
     System.cmd("sh", ["-c", cmd])
   end
@@ -19,7 +27,9 @@ defmodule Mix.Tasks.Zip do
     |> to_string
   end
 
-  defp release_path(app) do
-    "_build/#{Mix.env()}/rel/#{app}/"
+  defp app_version() do
+    Mix.Project.config()
+    |> Keyword.fetch!(:version)
+    |> to_string
   end
 end
