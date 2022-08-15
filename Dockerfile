@@ -24,11 +24,11 @@ RUN wget https://github.com/elixir-lang/elixir/releases/download/${ELIXIR_VERSIO
 RUN mkdir /opt/elixir
 RUN cd /opt/elixir/ && mv /Precompiled.zip . && unzip Precompiled.zip && rm Precompiled.zip 
 
-RUN mix local.hex --force && \
-    mix local.rebar --force
-
 # Build the symbolic link
 RUN ln -s /opt/elixir/bin/iex /usr/local/bin/iex
 RUN ln -s /opt/elixir/bin/mix /usr/local/bin/mix
 RUN ln -s /opt/elixir/bin/elixir /usr/local/bin/elixir
 RUN ln -s /opt/elixir/bin/elixirc /usr/local/bin/elixirc
+
+RUN mix local.hex --force && \
+    mix local.rebar --force
