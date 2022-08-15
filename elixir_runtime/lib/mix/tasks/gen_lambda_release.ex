@@ -1,56 +1,64 @@
 # Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
-defmodule Mix.Tasks.GenLambdaRelease do
+defmodule Mix.Tasks.Lambda.GenLambdaRelease do
   @moduledoc """
   Generate a distillery release configuration file for lambda release builds.
   """
 
   use Mix.Task
 
-  @shortdoc "Generate a distillery release for AWS Lambda"
+  @shortdoc "Generate a release for AWS Lambda"
   def run(_) do
     name =
       Mix.Project.config()
       |> Keyword.fetch!(:app)
       |> to_string
 
-    Mix.Generator.create_file("rel/config.exs", distillery_config(name))
+    Mix.Generator.create_file("rel/env.sh.eex", env_sh())
+    Mix.Generator.create_file("rel/vm.args.eex", vm_args())
   end
 
-  defp distillery_config(app) do
+  defp env_sh do
     """
-    ~w(rel plugins *.exs)
-    |> Path.join()
-    |> Path.wildcard()
-    |> Enum.map(&Code.eval_file(&1))
+    #!/bin/sh
 
-    use Mix.Releases.Config,
-        default_release: :#{app},
-        default_environment: :lambda
+    # Sets and enables heart (recommended only in daemon mode)
+    # case $RELEASE_COMMAND in
+    #   daemon*)
+    #     HEART_COMMAND="$RELEASE_ROOT/bin/$RELEASE_NAME $RELEASE_COMMAND"
+    #     export HEART_COMMAND
+    #     export ELIXIR_ERL_OPTIONS="-heart"
+    #     ;;
+    #   *)
+    #     ;;
+    # esac
 
-    environment :lambda do
-      set include_erts: true
-      set include_src: false
-      set cookie: :test
-      set include_system_libs: true
+    # Set the release to work across nodes. If using the long name format like
+    # the one below (my_app@127.0.0.1), you need to also uncomment the
+    # RELEASE_DISTRIBUTION variable below.
+    # export RELEASE_DISTRIBUTION=name
+    # export RELEASE_NODE=<%= @release.name %>@127.0.0.1
 
-      \# Distillery forces the ERTS into 'distributed' mode which will
-      \# attempt to connect to EPMD. This is not supported behavior in the
-      \# AWS Lambda runtime because our process isn't allowed to connect to
-      \# other ports on this host.
-      \#
-      \# So '-start_epmd false' is set so the ERTS doesn't try to start EPMD.
-      \# And '-epmd_module' is set to use a no-op implementation of EPMD
-      set erl_opts: "-start_epmd false -epmd_module Elixir.EPMD.StubClient"
-    end
+    export RELEASE_TMP="/tmp/elixir_release/${RELEASE_NAME}_${RELEASE_VSN}"
+    """
+  end
 
-    release :#{app} do
-      set version: current_version(:#{app})
-      set applications: [
-        :runtime_tools, :aws_lambda_elixir_runtime
-      ]
-    end
+  defp vm_args do
+    """
+    ## Customize flags given to the VM: http://erlang.org/doc/man/erl.html
+    ## -mode/-name/-sname/-setcookie are configured via env vars, do not set them here
+
+    ## Number of dirty schedulers doing IO work (file, sockets, etc)
+    ##+SDio 5
+
+    ## Increase number of concurrent ports/sockets
+    ##+Q 65536
+
+    ## Tweak GC to run more often
+    ##-env ERL_FULLSWEEP_AFTER 10
+
+    -start_epmd false -epmd_module Elixir.EPMD.StubClient
     """
   end
 end

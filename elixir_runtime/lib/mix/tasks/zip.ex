@@ -18,6 +18,7 @@ defmodule Mix.Tasks.Lambda.Zip do
     zip -r #{app}_lambda.zip * && \
     mv #{app}_lambda.zip ../../../../deploy"
 
+    IO.puts("Here")
     System.cmd("sh", ["-c", cmd])
   end
 

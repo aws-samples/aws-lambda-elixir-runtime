@@ -24,7 +24,7 @@ defmodule ElixirRuntime.Monitor.State do
   @spec error(monitor_state, term()) :: no_return
   def error({:not_started, client}, reason) do
     Monitor.Error.from_exit_reason(:runtime, reason)
-    |> Poison.encode!()
+    |> Jason.encode!()
     |> client.init_error()
   end
 
@@ -32,7 +32,7 @@ defmodule ElixirRuntime.Monitor.State do
   @spec error(monitor_state, term()) :: no_return
   def error({:in_progress, id, client}, reason) do
     Monitor.Error.from_exit_reason(:function, reason)
-    |> Poison.encode!()
+    |> Jason.encode!()
     |> client.invocation_error(id)
   end
 

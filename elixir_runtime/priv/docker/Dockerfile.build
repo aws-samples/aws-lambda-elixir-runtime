@@ -1,0 +1,27 @@
+FROM elixir:1.9.1
+
+RUN apt-get update && \
+    apt-get install -y \
+      zip \
+    && \
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir /workspace
+
+RUN mix local.hex --force && \
+    mix hex.info
+
+WORKDIR /workspace
+
+COPY . .
+
+ARG MIX_ENV=prod
+ENV MIX_ENV=${MIX_ENV}
+
+RUN mix do \
+    deps.get, \
+    compile, \
+    release, \
+    lambda.bootstrap, \
+    lambda.zip
+
+CMD echo "build complete"

@@ -17,8 +17,7 @@ defmodule Lambda.MixProject do
       # Docs
       name: "AWS Lambda Elixir Runtime",
       source_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime",
-      homepage_url:
-        "https://github.com/aws-samples/aws-lambda-elixir-runtime/tree/master/elixir_runtime",
+      homepage_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime/tree/master/elixir_runtime",
       docs: [
         source_url_pattern:
           "https://github.com/aws-samples/aws-lambda-elixir-runtime/blob/master/elixir_runtime/%{path}#L%{line}",
