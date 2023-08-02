@@ -23,17 +23,17 @@ defmodule ElixirRuntime.LambdaServiceClient do
         ) :: no_return
   def invocation_error(err_msg, id) do
     url =
-      'http://#{service_endpoint()}/2018-06-01/runtime/invocation/#{id}/error'
+      ~c"http://#{service_endpoint()}/2018-06-01/runtime/invocation/#{id}/error"
 
-    request = {url, [], 'text/plain', err_msg}
+    request = {url, [], ~c"text/plain", err_msg}
     {:ok, _response} = :httpc.request(:post, request, [], [])
   end
 
   @impl true
   @spec init_error(Monitor.Client.error()) :: no_return
   def init_error(err_msg) do
-    url = 'http://#{service_endpoint()}/2018-06-01/runtime/init/error'
-    request = {url, [], 'text/plain', err_msg}
+    url = ~c"http://#{service_endpoint()}/2018-06-01/runtime/init/error"
+    request = {url, [], ~c"text/plain", err_msg}
     {:ok, _response} = :httpc.request(:post, request, [], [])
   end
 
@@ -44,16 +44,16 @@ defmodule ElixirRuntime.LambdaServiceClient do
         ) :: no_return
   def complete_invocation(id, response) do
     url =
-      'http://#{service_endpoint()}/2018-06-01/runtime/invocation/#{id}/response'
+      ~c"http://#{service_endpoint()}/2018-06-01/runtime/invocation/#{id}/response"
 
-    request = {url, [], 'text/plain', response}
+    request = {url, [], ~c"text/plain", response}
     {:ok, _response} = :httpc.request(:post, request, [], [])
   end
 
   @impl true
   @spec next_invocation() :: Runtime.Client.invocation()
   def next_invocation do
-    url = 'http://#{service_endpoint()}/2018-06-01/runtime/invocation/next'
+    url = ~c"http://#{service_endpoint()}/2018-06-01/runtime/invocation/next"
     response = :httpc.request(:get, {url, []}, [], [])
     Logger.debug("Http get from #{url} was #{Kernel.inspect(response)}")
     parse(response)

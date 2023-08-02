@@ -27,7 +27,7 @@ defmodule Mix.Tasks.Bootstrap do
   # The bootstrap script contents
   defp bootstrap(app) when is_binary(app) do
     """
-    \#!/bin/bash
+    \#!/bin/sh
 
     set -x
 
@@ -37,12 +37,9 @@ defmodule Mix.Tasks.Bootstrap do
     HOME=/tmp
     export HOME
 
-    \# So that distillery doesn't try to write any files
-    export RELEASE_READ_ONLY=true
-
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{@runtime_libs}
 
-    $EXE foreground
+    $EXE start
     """
   end
 end

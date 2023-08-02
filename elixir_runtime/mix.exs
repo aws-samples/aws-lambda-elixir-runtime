@@ -8,7 +8,7 @@ defmodule Lambda.MixProject do
     [
       app: :aws_lambda_elixir_runtime,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -17,7 +17,8 @@ defmodule Lambda.MixProject do
       # Docs
       name: "AWS Lambda Elixir Runtime",
       source_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime",
-      homepage_url: "https://github.com/aws-samples/aws-lambda-elixir-runtime/tree/master/elixir_runtime",
+      homepage_url:
+        "https://github.com/aws-samples/aws-lambda-elixir-runtime/tree/master/elixir_runtime",
       docs: [
         source_url_pattern:
           "https://github.com/aws-samples/aws-lambda-elixir-runtime/blob/master/elixir_runtime/%{path}#L%{line}",
@@ -34,16 +35,17 @@ defmodule Lambda.MixProject do
   def application do
     [
       mod: {ElixirRuntime.Application, []},
-      extra_applications: [:logger, :inets]
+      extra_applications: [:logger, :inets, :ssl]
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:poison, "~> 3.1"},
-      {:mox, "~> 0.4", only: :test},
-      {:ex_doc, "~> 0.19", only: :dev, runtime: false}
+      {:poison, "~> 5.0"},
+      {:mox, "~> 1.0", only: :test},
+      {:ex_doc, "~> 0.27", only: :dev, runtime: false},
+      {:castore, "~> 1.0", only: [:dev, :test]}
     ]
   end
 

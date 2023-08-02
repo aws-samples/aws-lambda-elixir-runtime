@@ -23,15 +23,15 @@ defmodule ElixirRuntime.Monitor.Error do
           stackTrace: list
         }
 
-  @doc "Build an Error from a structured process-exit reason"
-  @spec from_exit_reason(error_type, {atom(), list()}) :: error
+  @doc "Build an Error from a process-exit reason"
+  @spec from_exit_reason(error_type, term) :: error
+  def from_exit_reason(error_type, reason)
+
   def from_exit_reason(error_type, _reason = {error, stacktrace}) do
     exception = Exception.normalize(:error, error, stacktrace)
     build_error(error_name(error_type, exception), exception, stacktrace)
   end
 
-  @doc "Build an Error from an unknown process-exit reason"
-  @spec from_exit_reason(error_type, term) :: error
   def from_exit_reason(error_type, reason) do
     exception = Exception.normalize(:error, {"unexpected exit", reason})
     build_error(error_name(error_type, exception), exception, [])
