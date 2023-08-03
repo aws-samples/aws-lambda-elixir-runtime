@@ -7,13 +7,13 @@ defmodule HelloWorld.MixProject do
   def project do
     [
       app: :hello_world,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       releases: [
         hello_world: [
-          version: "0.1.0",
+          version: "0.2.0",
           applications: [hello_world: :permanent, aws_lambda_elixir_runtime: :permanent],
           include_erts: true,
           include_executables_for: [:unix],

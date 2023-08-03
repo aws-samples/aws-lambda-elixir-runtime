@@ -6,20 +6,14 @@ defmodule Mix.Tasks.Zip do
 
   @shortdoc "zip the contents of the current release"
   def run(_) do
-    app = app_name()
-    version = app_version()
-    env = Mix.env()
-    release_dir = "_build/#{env}/rel/#{app}"
+    path = release_path(app_name())
+    zip_file = "#{app_name()}_lambda.zip"
 
-    cmd = "cd #{release_dir} && \
-    chmod +x bin/#{app} && \
-    chmod +x releases/#{version}/elixir && \
-    chmod +x releases/#{version}/*.sh && \
-    chmod +x erts-*/bin/* && \
-    zip -r #{app}_lambda.zip * && \
-    mv #{app}_lambda.zip ../"
+    cmd = "cd #{path} && zip -f -r #{zip_file} *"
 
     System.cmd("sh", ["-c", cmd])
+
+    Mix.shell().info("Zip file created: #{Path.join(path, zip_file)}")
   end
 
   defp app_name() do
@@ -28,9 +22,7 @@ defmodule Mix.Tasks.Zip do
     |> to_string
   end
 
-  defp app_version() do
-    Mix.Project.config()
-    |> Keyword.fetch!(:version)
-    |> to_string
+  defp release_path(app) do
+    "_build/#{Mix.env()}/rel/#{app}/"
   end
 end

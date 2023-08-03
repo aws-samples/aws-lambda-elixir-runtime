@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: MIT-0
 
 defmodule EPMD.StubClient do
+  @doc since: "0.2.0"
+  @deprecated "No longer needed when using mix release."
   @moduledoc """
   This module implements an EPMD client which does not actually coordinate
   with the real EPMD or allow the current node to communicate with other

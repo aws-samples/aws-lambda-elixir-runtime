@@ -9,7 +9,6 @@ defmodule ElixirRuntime.Monitor.Error do
 
   alias __MODULE__
 
-  @derive Poison.Encoder
   defstruct [
     :errorMessage,
     :errorType,

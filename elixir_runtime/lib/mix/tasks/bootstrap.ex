@@ -9,8 +9,6 @@ defmodule Mix.Tasks.Bootstrap do
 
   use Mix.Task
 
-  @runtime_libs "aws_lambda_elixir_runtime-0.1.0/priv"
-
   @shortdoc "Generate a bootstrap script for the project"
   def run(_) do
     name =
@@ -22,6 +20,9 @@ defmodule Mix.Tasks.Bootstrap do
 
     Mix.Generator.create_file(path, bootstrap(name))
     File.chmod!(path, 0o777)
+
+    Mix.shell().info("Bootstrap file created: #{path}")
+
   end
 
   # The bootstrap script contents
@@ -37,9 +38,22 @@ defmodule Mix.Tasks.Bootstrap do
     HOME=/tmp
     export HOME
 
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{@runtime_libs}
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{app_name()}-#{app_version()}/priv"}
 
     $EXE start
     """
   end
+
+  defp app_name() do
+    Mix.Project.config()
+    |> Keyword.fetch!(:app)
+    |> to_string
+  end
+
+  defp app_version() do
+    Mix.Project.config()
+    |> Keyword.fetch!(:version)
+    |> to_string
+  end
+
 end

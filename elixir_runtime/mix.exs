@@ -7,7 +7,7 @@ defmodule Lambda.MixProject do
   def project do
     [
       app: :aws_lambda_elixir_runtime,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -42,7 +42,7 @@ defmodule Lambda.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:poison, "~> 5.0"},
+      {:jason, "~> 1.4"},
       {:mox, "~> 1.0", only: :test},
       {:ex_doc, "~> 0.27", only: :dev, runtime: false},
       {:castore, "~> 1.0", only: [:dev, :test]}
