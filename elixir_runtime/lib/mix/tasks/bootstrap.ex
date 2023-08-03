@@ -38,7 +38,7 @@ defmodule Mix.Tasks.Bootstrap do
     HOME=/tmp
     export HOME
 
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{app_name()}-#{app_version()}/priv"}
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{app_name()}-#{app_version()}/priv
 
     $EXE start
     """

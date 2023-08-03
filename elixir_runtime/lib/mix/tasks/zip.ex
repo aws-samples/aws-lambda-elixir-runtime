@@ -9,7 +9,7 @@ defmodule Mix.Tasks.Zip do
     path = release_path(app_name())
     zip_file = "#{app_name()}_lambda.zip"
 
-    cmd = "cd #{path} && zip -f -r #{zip_file} *"
+    cmd = "set -xe && cd #{path} && zip -r #{zip_file} *"
 
     System.cmd("sh", ["-c", cmd])
 

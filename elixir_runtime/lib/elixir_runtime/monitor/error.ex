@@ -9,6 +9,7 @@ defmodule ElixirRuntime.Monitor.Error do
 
   alias __MODULE__
 
+  @derive Jason.Encoder
   defstruct [
     :errorMessage,
     :errorType,
