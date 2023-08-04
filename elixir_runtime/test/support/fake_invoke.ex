@@ -9,7 +9,7 @@ defmodule Support.FakeInvoke do
 
   def with_message(message) do
     body = %{msg: message}
-    {generated_id(), Poison.encode!(body), %{}}
+    {generated_id(), Jason.encode!(body), %{}}
   end
 
   def id({id, _body, _context}), do: id

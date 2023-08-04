@@ -38,7 +38,7 @@ defmodule ElixirRuntime.Monitor.State.Test do
 
   test "report an error from initial state" do
     reason = {:badarg, []}
-    expected = Poison.encode!(Monitor.Error.from_exit_reason(:runtime, reason))
+    expected = Jason.encode!(Monitor.Error.from_exit_reason(:runtime, reason))
 
     State.initial(FakeClient) |> State.error(reason)
 
@@ -48,7 +48,7 @@ defmodule ElixirRuntime.Monitor.State.Test do
   test "report an error while an invocation is in progress" do
     invoke_id = "fakeid"
     reason = {:badarg, []}
-    expected = Poison.encode!(Monitor.Error.from_exit_reason(:function, reason))
+    expected = Jason.encode!(Monitor.Error.from_exit_reason(:function, reason))
 
     State.initial(FakeClient)
     |> State.start_invocation(invoke_id)
