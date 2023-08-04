@@ -50,8 +50,8 @@ defmodule ElixirRuntime.Loop do
 
     response =
       handler
-      |> Handler.invoke(Poison.decode!(body), context)
-      |> Poison.encode!()
+      |> Handler.invoke(Jason.decode!(body), context)
+      |> Jason.encode!()
 
     client.complete_invocation(id, response)
   end

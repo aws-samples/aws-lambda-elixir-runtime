@@ -7,10 +7,13 @@ defmodule Mix.Tasks.Zip do
   @shortdoc "zip the contents of the current release"
   def run(_) do
     path = release_path(app_name())
+    zip_file = "#{app_name()}_lambda.zip"
 
-    cmd = "cd #{path} && zip -r lambda.zip * && cp lambda.zip #{System.cwd()}"
+    cmd = "set -xe && cd #{path} && zip -r #{zip_file} *"
 
     System.cmd("sh", ["-c", cmd])
+
+    Mix.shell().info("Zip file created: #{Path.join(path, zip_file)}")
   end
 
   defp app_name() do

@@ -25,3 +25,5 @@ lambda-*.tar
 
 *.lock
 *.swp
+
+.DS_Store

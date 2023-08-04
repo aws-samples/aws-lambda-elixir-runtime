@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: MIT-0
 
 defmodule Mix.Tasks.GenLambdaRelease do
+  @doc since: "0.2.0"
+  @deprecated "No longer needed when using mix release."
   @moduledoc """
   Generate a distillery release configuration file for lambda release builds.
   """

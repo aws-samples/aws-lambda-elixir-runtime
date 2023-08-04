@@ -7,10 +7,19 @@ defmodule HelloWorld.MixProject do
   def project do
     [
       app: :hello_world,
-      version: "0.1.0",
-      elixir: "~> 1.7",
+      version: "0.2.0",
+      elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      releases: [
+        hello_world: [
+          version: "0.2.0",
+          applications: [hello_world: :permanent, aws_lambda_elixir_runtime: :permanent],
+          include_erts: true,
+          include_executables_for: [:unix],
+
+        ]
+      ]
     ]
   end
 
@@ -24,8 +33,7 @@ defmodule HelloWorld.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:aws_lambda_elixir_runtime, path: "../../elixir_runtime"},
-      {:distillery, "~> 2.0"}
+      {:aws_lambda_elixir_runtime, path: "../../elixir_runtime"}
     ]
   end
 end

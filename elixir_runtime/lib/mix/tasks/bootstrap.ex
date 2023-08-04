@@ -9,25 +9,23 @@ defmodule Mix.Tasks.Bootstrap do
 
   use Mix.Task
 
-  @runtime_libs "elixir_runtime-0.1.0/priv"
-
   @shortdoc "Generate a bootstrap script for the project"
   def run(_) do
-    name =
-      Mix.Project.config()
-      |> Keyword.fetch!(:app)
-      |> to_string
+    name = app_name()
 
     path = "_build/#{Mix.env()}/rel/#{name}/bootstrap"
 
     Mix.Generator.create_file(path, bootstrap(name))
     File.chmod!(path, 0o777)
+
+    Mix.shell().info("Bootstrap file created: #{path}")
+
   end
 
   # The bootstrap script contents
   defp bootstrap(app) when is_binary(app) do
     """
-    \#!/bin/bash
+    \#!/bin/sh
 
     set -x
 
@@ -38,11 +36,30 @@ defmodule Mix.Tasks.Bootstrap do
     export HOME
 
     \# So that distillery doesn't try to write any files
+    \# Ignored and not needed when using mix release
     export RELEASE_READ_ONLY=true
 
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{@runtime_libs}
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{runtime_app_name()}-#{runtime_version()}/priv
 
-    $EXE foreground
+    $EXE start
     """
   end
+
+  defp app_name() do
+    Mix.Project.config()
+    |> Keyword.fetch!(:app)
+    |> to_string
+  end
+
+  defp runtime_app_name() do
+    Application.get_application(__MODULE__)
+    |> Atom.to_string()
+
+  end
+
+  defp runtime_version() do
+    Application.get_application(__MODULE__)
+    |> Application.spec(:vsn)
+  end
+
 end

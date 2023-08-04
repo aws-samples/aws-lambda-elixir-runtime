@@ -1,0 +1,16 @@
+## Customize flags given to the VM: https://www.erlang.org/doc/man/erl.html
+## -mode/-name/-sname/-setcookie are configured via env vars, do not set them here
+
+## Increase number of concurrent ports/sockets
+##+Q 65536
+
+## Tweak GC to run more often
+##-env ERL_FULLSWEEP_AFTER 10
+
+# Running ERTS in distributed mode will attempt to connect to EPMD. 
+# This is not supported behavior in the AWS Lambda runtime because our 
+# process isn't allowed to connect to other ports on this host.
+#
+# So '-start_epmd false' is set so the ERTS doesn't try to start EPMD.
+# And '-epmd_module' is set to use a no-op implementation of EPMD
+-start_epmd false -epmd_module Elixir.EPMD.StubClient
