@@ -11,10 +11,7 @@ defmodule Mix.Tasks.Bootstrap do
 
   @shortdoc "Generate a bootstrap script for the project"
   def run(_) do
-    name =
-      Mix.Project.config()
-      |> Keyword.fetch!(:app)
-      |> to_string
+    name = app_name()
 
     path = "_build/#{Mix.env()}/rel/#{name}/bootstrap"
 
@@ -38,7 +35,7 @@ defmodule Mix.Tasks.Bootstrap do
     HOME=/tmp
     export HOME
 
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{app_name()}-#{app_version()}/priv
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{runtime_app_name()}-#{runtime_version()}/priv
 
     $EXE start
     """
@@ -50,10 +47,15 @@ defmodule Mix.Tasks.Bootstrap do
     |> to_string
   end
 
-  defp app_version() do
-    Mix.Project.config()
-    |> Keyword.fetch!(:version)
-    |> to_string
+  defp runtime_app_name() do
+    Application.get_application(__MODULE__)
+    |> Atom.to_string()
+
+  end
+
+  defp runtime_version() do
+    Application.get_application(__MODULE__)
+    |> Application.spec(:vsn)
   end
 
 end
