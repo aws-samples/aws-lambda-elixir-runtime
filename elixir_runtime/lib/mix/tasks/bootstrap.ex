@@ -35,6 +35,10 @@ defmodule Mix.Tasks.Bootstrap do
     HOME=/tmp
     export HOME
 
+    \# So that distillery doesn't try to write any files
+    \# Ignored and not needed when using mix release
+    export RELEASE_READ_ONLY=true
+
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BASE/lib/#{runtime_app_name()}-#{runtime_version()}/priv
 
     $EXE start
